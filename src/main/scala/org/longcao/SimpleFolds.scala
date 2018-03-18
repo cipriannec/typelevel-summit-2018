@@ -22,19 +22,19 @@ object SimpleFolds {
     }
   }
 
+  // CommutativeMonoid is a Monoid with the additional law of commutativity.
+  // This instance exists in cats but is re-implemented here for illustrative purposes.
+  val addingMonoid = new CommutativeMonoid[Int] {
+    override def empty: Int = 0
+    override def combine(x: Int, y: Int): Int = x + y
+  }
+
   def main(args: Array[String]): Unit = {
     implicit val spark = SparkSession.builder().master("local[*]").getOrCreate()
     import spark.implicits._
     spark.sparkContext.setLogLevel("ERROR")
 
     val nums: List[Int] = (1 to 100).toList
-
-    // CommutativeMonoid is a Monoid with the additional law of commutativity.
-    // This instance exists in cats but is re-implemented here for illustrative purposes.
-    val addingMonoid = new CommutativeMonoid[Int] {
-      override def empty: Int = 0
-      override def combine(x: Int, y: Int): Int = x + y
-    }
 
     // Fold a List[Int] to a single Int (sum).
     // Since a CommutativeMonoid[Int] _is_ a Monoid[Int], we can provide
