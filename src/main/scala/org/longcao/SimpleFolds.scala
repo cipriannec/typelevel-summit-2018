@@ -13,7 +13,7 @@ object SimpleFolds {
     }
   }
 
-  // Using RDD#fold is O(log n) and requires associativity _and_ commutativity.
+  // Using RDD#fold is parallel and requires associativity _and_ commutativity.
   // Folds partitions in parallel first, then a final fold across those results.
   // See: https://spark.apache.org/docs/2.2.1/api/scala/index.html#org.apache.spark.rdd.RDD@fold(zeroValue:T)(op:(T,T)=>T):T
   def fold[T](ds: Dataset[T])(implicit cm: CommutativeMonoid[T]): T = {
