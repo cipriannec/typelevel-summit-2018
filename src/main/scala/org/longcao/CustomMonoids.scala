@@ -57,7 +57,7 @@ object CustomMonoids {
   def kvDatasetMonoid[T: Encoder, K: Encoder, V: Encoder: CommutativeSemigroup](implicit kver: KeyValue[T, K, V], spark: SparkSession) = new Monoid[Dataset[T]] {
     import cats.implicits._
 
-    private implicit val tupleEncoder: Encoder[(K, V)] = Encoders.tuple[K, V](
+    private val tupleEncoder: Encoder[(K, V)] = Encoders.tuple[K, V](
       implicitly[Encoder[K]],
       implicitly[Encoder[V]])
 
